@@ -46,8 +46,9 @@ body {
 .client_group {
   background-color: #ddd;
   border-radius: 20px;
-  margin: 10px;
+  margin: 10px auto;
   padding: 10px;
+  max-width: 600px;
 }
 
 .client_group h1 {
