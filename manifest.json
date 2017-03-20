@@ -1,0 +1,35 @@
+{
+  "name": "QuickToggl",
+  "short_name": "QuickToggl",
+  "start_url": "/toggl-pwa/",
+  "display": "standalone",
+  "theme_color": "#b53f3f",
+  "background_color": "#ececec",
+  "icons": [
+    {
+      "src": "images/hourglass_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "images/hourglass_256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "images/hourglass_128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "images/hourglass_64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "images/hourglass_32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

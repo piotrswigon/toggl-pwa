@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  font-family: 'Helvetica', 'Verdana', sans-serif;
+  background-color: rgb(236, 236, 236);
+  transition: background .5s;
+}
+
+#app_header {
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 3px 5px rgba(0,0,0,.4);
+}
+
+.credit {
+  padding: 10px;
+  font-size: 10px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 10px 12px;
+  margin: 5px;
+  border-radius: 20px;
+  box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+  background-color: white;
+  cursor: pointer; 
+}
+
+.color_marker {
+   height: 12px;
+   width: 12px;
+   border-radius: 6px;
+   display: inline-block;
+   margin-right: 6px;
+}
+
+.pill_container {
+  text-align: center;
+  padding-top: 5px;
+}
+
+#projects_section {
+  margin-top: 15px;
+}
+
+.client_group {
+  background-color: #ddd;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.client_group h1 {
+  text-align: center;
+  font-style: italic;
+  font-weight: 600;
+  margin: 0 0 5px;
+}
+
+#project_header {
+  padding: 10px;
+  box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+  background-color: white;
+}
+
+#project_close {
+  float: right;
+  margin-right: 5px;
+  color: #444;
+}
+
+#login_glass {
+  position: fixed;
+  background-color: rgb(236, 236, 236);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+#login_container {
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+#login_logo {
+  width: 100%;
+}
+
+#login_dialog {
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+  background-color: white;
+  width: 250px;
+  height: 188px;
+  margin: 0 auto;
+}
+
+#login_dialog > label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+#login_dialog input {
+  width: 90%;
+  padding: 10px;
+  border: 0;
+}
+
+#login_button {
+  display: block;
+  margin: 0 auto;
+  padding: 15px 30px;
+  border-radius: 20px;
+  border: 0;
+  box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+  background-color: #e20505;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}

@@ -1,8 +1,46 @@
 <html>
   <head>
-    <title>Toggl PWA Demo</title>
+    <title>QuickToggl</title>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="manifest" href="manifest.json"/>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script src="shake_ui.js" async></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
   </head>
   <body>
-    <header>Hello!</header>
+    <header id="app_header"></header>
+    <section id="projects_section"></section>
+    <section id="entries_section" style="display: none;">
+      <div style="background-color:white">
+      <header id="project_header">
+        <div id="project_header_color" class="color_marker"></div>
+        <span id="project_header_text"></span>
+        <span id="project_close">&#215;</span>
+      </header>
+      </div>
+      <div id="entries" class="pill_container"></div>
+    </section>
+    <div id="login_glass">
+      <div id="login_container">
+      <h1 id="login_logo">QuickToggl</h1>
+      <div id="login_dialog">
+        <label>
+          Email:<br/>
+          <input id="email_input" type="text" placeholder="j.smith@example.com"/>
+        </label>
+        <label>
+          API Token:<br/>
+          <input id="api_token_input" type="text" placeholder="a1b2c3d4e5f6..."/>
+        </label>
+        <button type="button" id="login_button">Login</button>
+      </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <div class="credit">Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   </body>
 </html>
+
