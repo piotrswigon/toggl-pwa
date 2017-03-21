@@ -143,7 +143,13 @@ function run_ui() {
 		headers: auth_header(),
 		params: '{"domain":"ptrs29.github.io"}'
 	}).then(JSON.parse).then(function(response) {
+	  console.log('CORS call finishes');
 		console.log(response);
+		console.log('-----');
+	}).catch(error => {
+	  console.log('CORS call returns an error');
+	  console.log(reponse);
+	  console.log('-----');
 	});
   
   var current_entry = makeRequest({
