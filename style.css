@@ -70,7 +70,7 @@ body {
   color: #444;
 }
 
-#login_glass {
+.glass {
   position: fixed;
   background-color: rgb(236, 236, 236);
   top: 0;
@@ -124,4 +124,11 @@ body {
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
+}
+
+#loading_text {
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+  font-style: italic;
 }
