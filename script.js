@@ -137,6 +137,15 @@ function run_ui() {
   $('#login_glass').hide();
   $('#loading_glass').show();
   
+  makeRequest({
+		method: 'POST',
+		url: 'https://www.toggl.com/api/v9/me/cors?' + user_params(),
+		headers: auth_header(),
+		params: '{"domain":"ptrs29.github.io"}'
+	}).then(JSON.parse).then(function(response) {
+		console.log(response);
+	});
+  
   var current_entry = makeRequest({
     method: 'GET',
     url: 'https://www.toggl.com/api/v8/time_entries/current?' + user_params(),
