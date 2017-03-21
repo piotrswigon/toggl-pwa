@@ -1,7 +1,24 @@
+var db = new Dexie("QuickTogglDB");
+db.version(1).stores({
+  credentials: "email"
+});
+
 var email, api_token, workspace;
 var entries_map = {}; // PID -> [task_descriptions*]
 var NO_PROJECT_PID = "no_project";
-	
+
+db.credentials.toArray().then(function(credentials_array) {
+  if (credentials_array.length === 0) {
+    // Show login screen
+  } else {
+    credentials = credentials_array[0];
+		email = credentials.email;
+		api_token = credentials.api_token;
+		workspace = credentials.workspace;
+		run_ui();
+  }
+});
+
 function verify_credentials(_email, _api_token) {
   xhr = new XMLHttpRequest();
   xhr.open("GET", "https://www.toggl.com/api/v8/me?user_agent=" + _email, false);
@@ -16,6 +33,7 @@ function verify_credentials(_email, _api_token) {
     email = _email;
     api_token = _api_token;
     workspace = response.data.workspaces[0].id;
+    db.credentials.add({email: email, api_token: api_token, workspace: workspace});
     return true;
   }
 }
@@ -27,7 +45,6 @@ function add_client_group(name, id) {
 
 $('#login_button').click(function() {
   if (verify_credentials($('#email_input').val(), $('#api_token_input').val())) {
-    $('#login_glass').fadeOut();
     run_ui();
   }
 });
@@ -60,6 +77,7 @@ function show_entries(pid) {
 }
 
 function run_ui() {
+  $('#login_glass').fadeOut();
 
 	var xhr = new XMLHttpRequest();
 	xhr.open("GET", "https://www.toggl.com/api/v8/time_entries/current?user_agent=" + email + "&workspace_id=" + workspace, false);
