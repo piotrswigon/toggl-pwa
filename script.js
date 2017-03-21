@@ -68,23 +68,20 @@ db.credentials.toArray().then(function(credentials_array) {
   }
 });
 
-function verify_credentials(_email, _api_token) {
-  xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://www.toggl.com/api/v8/me?user_agent=" + _email, false);
-  xhr.setRequestHeader('Authorization', 'Basic ' + btoa(_api_token + ':api_token'));
-  xhr.send();
-  if(xhr.status !== 200) {
-    // What if shake didn't load yet?
-    $('#login_dialog').shake({speed: 80});
-    return false;
-  } else {
-    var response = JSON.parse(xhr.response);
-    email = _email;
-    api_token = _api_token;
-    workspace = response.data.workspaces[0].id;
-    db.credentials.add({email: email, api_token: api_token, workspace: workspace});
-    return true;
-  }
+function verify_credentials(_email, _api_token, success_callback) {
+  makeRequest({
+				method: 'GET',
+				url: 'https://www.toggl.com/api/v8/me?' + user_params(_email),
+				headers: auth_header(_api_token)
+			}).then(JSON.parse).then(response => {
+			  email = _email;
+        api_token = _api_token;
+        workspace = response.data.workspaces[0].id;
+        db.credentials.add({email: email, api_token: api_token, workspace: workspace});
+        success_callback();
+			}).catch(() => {
+			  $('#login_dialog').shake({speed: 80});
+			});
 }
 
 function add_client_group(name, id) {
@@ -93,9 +90,7 @@ function add_client_group(name, id) {
 }
 
 $('#login_button').click(function() {
-  if (verify_credentials($('#email_input').val(), $('#api_token_input').val())) {
-    run_ui();
-  }
+  verify_credentials($('#email_input').val(), $('#api_token_input').val(), () => {run_ui();});
 });
 
 function close_entries() {
@@ -116,24 +111,25 @@ function show_entries(pid) {
   $('#entries_section').fadeIn();
   
   $('span[data-entry=""]').click(function() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://www.toggl.com/api/v8/time_entries/start?user_agent=" + email + "&workspace_id=" + workspace, false);
-    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(api_token + ':api_token'));
-    xhr.send('{"time_entry":{"description":"' + this.innerText + '","pid":' + this.parentNode.getAttribute('data-project') + ',"created_with":"QuickToggl"}}');
-    console.log(xhr.response);
-    close_entries();
-    // Error handling.
-    // Update current task UI if success.
+    makeRequest({
+			method: 'POST',
+			url: 'https://www.toggl.com/api/v8/time_entries/start?' + user_params(),
+			headers: auth_header(),
+			params: '{"time_entry":{"description":"' + this.innerText + '","pid":' + this.parentNode.getAttribute('data-project') + ',"created_with":"QuickToggl"}}'
+		}).then(JSON.parse).then(function(response) {
+			$('#app_header').html('Currently: ' + (response.data ? response.data.description : 'No running project'));
+			close_entries();
+		});
   });
 }
 
-function user_params() {
-  return 'user_agent=' + email + '&workspace_id=' + workspace;
+function user_params(_email, _workspace) {
+  return 'user_agent=' + (_email || email) + '&workspace_id=' + (_workspace || workspace);
 }
 
-function auth_header() {
+function auth_header(_api_token) {
   return {
-    'Authorization': 'Basic ' + btoa(api_token + ':api_token')
+    'Authorization': 'Basic ' + btoa((_api_token || api_token) + ':api_token')
   };
 }
 
