@@ -64,20 +64,9 @@ db.credentials.toArray().then(function(credentials_array) {
 		email = credentials.email;
 		api_token = credentials.api_token;
 		workspace = credentials.workspace;
-		/*run_ui();*/
-		check_cors();
+		run_ui();
   }
 });
-
-function check_cors() {
-  makeRequest({
-			method: 'POST',
-			url: 'https://www.toggl.com/api/v8/sessions' /*+ user_params()*/,
-			headers: auth_header(),
-		}).then(JSON.parse).then(function(response) {
-			console.log(response);
-		});
-}
 
 function verify_credentials(_email, _api_token, success_callback) {
   makeRequest({
