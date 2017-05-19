@@ -101,6 +101,18 @@ function close_entries() {
 
 $('#project_close').click(close_entries);
 
+$('#stop_button').click(function() {
+  var task_id = $('#current_entry').attr('data-task-id');
+  if (!task_id) return;
+  makeRequest({
+			method: 'PUT',
+			url: 'https://www.toggl.com/api/v8/time_entries/' + task_id + '/stop?' + user_params(),
+			headers: auth_header(),
+		}).then(JSON.parse).then(function(response) {
+		  update_running_task_ui();
+		});
+});
+
 function show_entries(pid) {
   var entries_string = "";
   for (let task_description of (entries_map[pid] || [])) {
@@ -117,10 +129,24 @@ function show_entries(pid) {
 			headers: auth_header(),
 			params: '{"time_entry":{"description":"' + this.innerText + '","pid":' + this.parentNode.getAttribute('data-project') + ',"created_with":"QuickToggl"}}'
 		}).then(JSON.parse).then(function(response) {
-			$('#app_header').html('Currently: ' + (response.data ? response.data.description : 'No running project'));
+		  update_running_task_ui(response);
 			close_entries();
 		});
   });
+}
+
+// If there is currently running task, response.data with id and description will be present.
+function update_running_task_ui(response) {
+  var current_entry_element = $('#current_entry');
+  if (response && response.data) {
+    current_entry_element.html('Currently: ' + response.data.description);
+    current_entry_element.attr('data-task-id', response.data.id);
+    $('#stop_button').show();
+  } else {
+    current_entry_element.html('No running entry');
+    current_entry_element.removeAttr('data-task-id');
+    $('#stop_button').hide();
+  }
 }
 
 function user_params(_email, _workspace) {
@@ -142,7 +168,7 @@ function run_ui() {
     url: 'https://www.toggl.com/api/v8/time_entries/current?' + user_params(),
     headers: auth_header()
   }).then(JSON.parse).then(function(response) {
-    $('#app_header').html('Currently: ' + (response.data ? response.data.description : 'No running project'));
+    update_running_task_ui(response);
   });
 	
 	var render_ui = Promise.all([
